@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!-- Created by Michael Ye -->
+<html>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<title>reddit: the front page of the internet</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-42511694-1', 'uwaterloo.ca');
+		  ga('send', 'pageview');
+
+		</script>
+	</head>
+	<!-- end of head -->
+
+	<body>
+		<div id="top">
+			<div id="logo" onclick="location.href='index.html'"></div>
+		</div>
+
+		<div style="height:60px;"></div>
+		<div id="main-container">
+			<div id="container">
+				<div id="listings">
+					<script>
+						var done = false;
+						var json;
+						var myurl = "http://www.reddit.com/.json?jsonp=?";
+						var after = myurl;
+
+						mygetJSON(after);
+					</script>
+
+				</div>
+				<!-- end of listings -->
+			</div>
+			<!-- end of container -->
+			<div id="ad-container">
+				<div class="ad">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- square-reddit -->
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:250px"
+					     data-ad-client="ca-pub-0887187867281518"
+					     data-ad-slot="1959629116"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+
+				</div>
+				<div class="ad" style="margin-top:10px;">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- square-reddit-2 -->
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:250px"
+					     data-ad-client="ca-pub-0887187867281518"
+					     data-ad-slot="5818615517"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+
+				</div>
+
+			</div>
+			<!-- end of ad-container -->
+
+		</div>
+		<!-- end of main-container -->
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script>
+			var postIds = new Array();
+
+			// functions
+			function noDoubles(id) {
+				if (postIds.indexOf(id) != -1) {
+					return false;
+				} else {
+					postIds.push(id);
+					return true;
+				}
+			}
+
+			function getDocHeight() {
+				var D = document;
+				return Math.max(Math.max(D.body.scrollHeight, D.documentElement.scrollHeight), Math.max(D.body.offsetHeight, D.documentElement.offsetHeight), Math.max(D.body.clientHeight, D.documentElement.clientHeight));
+			}
+
+			function youtube_parser(url) {
+				var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+				var match = url.match(regExp);
+				if (match && match[1].length == 11) {
+					return match[1];
+				}
+			}
+
+			function qkme_parser(url) {
+				var result = "http://i.qkme.me/";
+				var length = url.length;
+				var pos = 0;
+
+				if (url.indexOf("me.me") != -1) {
+					pos = url.indexOf("me.me") + 6;
+				} else {
+					pos = url.indexOf("meme") + 14;
+				}
+
+				result += url.substring(pos, pos + 6);
+
+				result += ".jpg";
+				return result;
+			}
+
+			function printPosts(posts) {
+				var result = "";
+
+				for (var i = 0; i < posts.length; i++) {
+					var iUrl = posts[i].data.url;
+					if (noDoubles(posts[i].data.name)) {
+						result += "<div class=\"post\">";
+						// post tag
+						result += "<div class=\"media\">";
+						// media tag
+						// add media
+						if (iUrl.indexOf(".jpg") != -1 || iUrl.indexOf(".png") != -1 || iUrl.indexOf(".jpeg") != -1 || iUrl.indexOf(".gif") != -1) {
+							if (posts[i].data.over_18) {
+								result += ("<img src=\"images/nsfw.png\" width=550 />");
+							} else {
+								result += ("<img src=\"" + iUrl + "\" width=550 />");
+							}
+						} else if (iUrl.indexOf("youtube.com") != -1) {
+							result += ("<iframe width=\"550\" height=\"338\" src=\"http://www.youtube.com/embed/" + youtube_parser(iUrl) + "?rel=0\" frameborder=\"0\" allowfullscreen></iframe>");
+						} else if (iUrl.indexOf("quickmeme") != -1 || iUrl.indexOf("qkme.me") != -1) {
+							result += ("<img src=\"" + qkme_parser(iUrl) + "\" width=550 />");
+						} else if (iUrl.indexOf("imgur.com") != -1 && iUrl.indexOf("/a/") == -1 && iUrl.indexOf("/gallery/") == -1) {
+							if (posts[i].data.over_18) {
+								result += ("<img src=\"images/nsfw.png\" width=550 />");
+							} else {
+								result += ("<img src=\"" + iUrl + ".jpg\" width=550 />");
+							}
+						} else if (posts[i].data.thumbnail == "") {
+							result += ("<img src=\"images/no-thumb.png\" width=100 />");
+						} else if (posts[i].data.thumbnail == "self") {
+							result += ("<img src=\"images/ama.png\" width=100 />");
+						} else if (posts[i].data.thumbnail != "default") {
+							result += ("<img src=\"" + posts[i].data.thumbnail + "\" width=100px />");
+						} else {
+							result += ("<img src=\"images/no-thumb.png\" width=100 />");
+						}
+
+						result += ("</div>");
+						// close media tag
+						//result += ("<div class=\"postRight\">")
+						result += ("<b><a href=\"" + iUrl + "\" target=\"_blank\">" + posts[i].data.title + "</a></b><br>");
+						result += ("<div class=\"subreddit\">/r/" + posts[i].data.subreddit + "</div>");
+						if (posts[i].data.over_18) {
+							result += ("<span style=\"color:#da0000; font-weight:bold;\">NSFW</span>")
+						}
+						result += ("<div class=\"comments\"><a class=\"various\" data-fancybox-type=\"iframe\" href=\"http://reddit.com" + posts[i].data.permalink + "\">" + posts[i].data.num_comments + " comments</a></div>");
+
+						result += ("<div class=\"score\">Score: ");
+						result += (posts[i].data.score);
+						result += ("</div>");
+						// close score
+
+						/*
+						 result += ("<div class=\"voteBox\">");
+
+						 result += ("<div class=\"arrows\">");
+
+						 result += ("<div class=\"downarrow\">");
+						 result += ("</div>");
+						 // close downarrow
+						 result += ("<div class=\"uparrow\">");
+						 result += ("</div>");
+						 // close uparrow
+
+						 result += ("</div>");
+						 // close arrows
+
+						 result += ("</div>");
+						 // close voteBox
+
+						 */
+
+						// result += ("</div>");
+						// close postRight tag
+						result += ("</div>");
+						// close post tag
+
+						// line padding between posts
+						result += ("<div class=\"linePadding\"></div>");
+					}
+				}
+
+				return result;
+			}
+
+			// get json
+			function mygetJSON() {
+				$('#more').html("<img src=\"images/loading.gif\"  width=\"50\"/>");
+				$.getJSON(after, function foo(data) {
+					json = data;
+				})
+				// if successful
+				.success(function() {
+					after = (myurl + "&after=" + json.data.after);
+					var output = printPosts(json.data.children);
+					$('#listings').append(output);
+				});
+			}
+
+
+			$(".various").fancybox({
+				maxWidth : '95%',
+				maxHeight : '100%',
+				fitToView : true,
+				width : '1024',
+				height : '95%',
+				autoSize : false,
+				closeClick : false,
+				openEffect : 'none',
+				closeEffect : 'none'
+			});
+
+		</script>
+		<script>
+			mygetJSON(after);
+			$(window).scroll(function() {
+				if ($(window).scrollTop() + $(window).height() == getDocHeight()) {
+					mygetJSON(after);
+				}
+			});
+		</script>
+
+
+	</body>
+</html>
