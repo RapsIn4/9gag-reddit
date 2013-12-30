@@ -4,7 +4,7 @@
 body {
 	margin: 0 0 0 0;
 	font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-	background: #ddd;
+	background: #F8F8F8;
 }
 
 a {
@@ -13,16 +13,23 @@ a {
 }
 
 a:hover {
-	color: #707070;
-	-webkit-transition: color .25s linear;
-	transition: color .25s linear;
+	color: #4099FF;
+	-webkit-transition: color .18s linear;
+	transition: color .18s linear;
+}
+
+h3 {
+	margin-bottom: 0px;
+	margin-top:0px;
 }
 
 .ad {
 	margin:0px auto;
 	width:300px;
 	height: 250px;
-	border: solid #787878 1px;
+	border: solid #ddd 1px;
+	background: #efefef;
+
 }
 
 #ad-container {
@@ -36,7 +43,7 @@ a:hover {
 	position:fixed;
 	width: 100%;
 	height: 45px;
-	border-bottom: 2px solid black;
+	border-bottom: 1px solid black;
 	background: #282828;
 }
 
@@ -53,16 +60,13 @@ a:hover {
 }
 
 #container {
-	width: 550px;
+	width: 570px;
 	float:left;
-	padding:0px 15px 15px 15px;
 	background: #F8F8F8;
-	border: 1px solid #787878;
-
 }
 
 #more {
-	width: 550px;
+	width: 570px;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 15px;
@@ -96,7 +100,18 @@ a:hover {
 }
 
 .comments {
-	font-size: 14px;
+	font-size: 12px;
+	color:#666;
+}
+
+.comments a {
+	color: #666;
+	text-decoration: none;
+
+}
+
+.comments a:hover {
+	text-decoration: underline;
 }
 
 #main-container {
@@ -113,13 +128,13 @@ a:hover {
 	overflow: hidden;
 	display: inline-block; /* Necessary to trigger "hasLayout" in IE */
 	display: block;
-	width: 550px;
-	margin-top: 20px;
+	width: 570px;
 }
 
 .media {
 	float: left;
-	width: 550px;
+	width: 570px;
+	margin-top: 10px;
 }
 
 .postRight {
@@ -130,9 +145,10 @@ a:hover {
 
 .linePadding {
 	margin-top:20px;
-	width:550px;
-	height:1px;
-	background: #ddd;
+	width:570px;
+	height:20px;
+	border-top: solid 1px #ddd;
+	background: #F8F8F8;
 }
 
 .voteBox {
@@ -175,11 +191,4 @@ a:hover {
 
 .downarrow:hover {
 	background: url('images/downvote-ro.png');
-}
-
-.score {
-	margin-top: 10px;
-	width: 100px;
-	font-weight:bold;
-	font-size:14px;
 }

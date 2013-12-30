@@ -126,24 +126,34 @@
 					if (noDoubles(posts[i].data.name)) {
 						result += "<div class=\"post\">";
 						// post tag
+
+						result += ("<h3><a href=\"" + iUrl + "\" target=\"_blank\">" + posts[i].data.title + "</a></h3>");
+						result += ("<div class=\"subreddit\">/r/" + posts[i].data.subreddit + "</div>");
+						if (posts[i].data.over_18) {
+							result += ("<span style=\"color:#da0000; font-weight:bold;\">NSFW</span>")
+						}
+						result += "<div class=\"comments\">" + posts[i].data.score + " points · ";
+						result += ("<a class=\"various\" target=\"_blank\" href=\"http://reddit.com" + posts[i].data.permalink + "\">" + posts[i].data.num_comments + " comments</a></div>");
+
+
 						result += "<div class=\"media\">";
 						// media tag
 						// add media
 						if (iUrl.indexOf(".jpg") != -1 || iUrl.indexOf(".png") != -1 || iUrl.indexOf(".jpeg") != -1 || iUrl.indexOf(".gif") != -1) {
 							if (posts[i].data.over_18) {
-								result += ("<img src=\"images/nsfw.png\" width=550 />");
+								result += ("<img src=\"images/nsfw.png\" width=570 />");
 							} else {
-								result += ("<img src=\"" + iUrl + "\" width=550 />");
+								result += ("<img src=\"" + iUrl + "\" width=570 />");
 							}
 						} else if (iUrl.indexOf("youtube.com") != -1) {
-							result += ("<iframe width=\"550\" height=\"338\" src=\"http://www.youtube.com/embed/" + youtube_parser(iUrl) + "?rel=0\" frameborder=\"0\" allowfullscreen></iframe>");
+							result += ("<iframe width=\"570\" height=\"338\" src=\"http://www.youtube.com/embed/" + youtube_parser(iUrl) + "?rel=0\" frameborder=\"0\" allowfullscreen></iframe>");
 						} else if (iUrl.indexOf("quickmeme") != -1 || iUrl.indexOf("qkme.me") != -1) {
-							result += ("<img src=\"" + qkme_parser(iUrl) + "\" width=550 />");
+							result += ("<img src=\"" + qkme_parser(iUrl) + "\" width=570 />");
 						} else if (iUrl.indexOf("imgur.com") != -1 && iUrl.indexOf("/a/") == -1 && iUrl.indexOf("/gallery/") == -1) {
 							if (posts[i].data.over_18) {
-								result += ("<img src=\"images/nsfw.png\" width=550 />");
+								result += ("<img src=\"images/nsfw.png\" width=570 />");
 							} else {
-								result += ("<img src=\"" + iUrl + ".jpg\" width=550 />");
+								result += ("<img src=\"" + iUrl + ".jpg\" width=570 />");
 							}
 						} else if (posts[i].data.thumbnail == "") {
 							result += ("<img src=\"images/no-thumb.png\" width=100 />");
@@ -158,18 +168,7 @@
 						result += ("</div>");
 						// close media tag
 						//result += ("<div class=\"postRight\">")
-						result += ("<b><a href=\"" + iUrl + "\" target=\"_blank\">" + posts[i].data.title + "</a></b><br>");
-						result += ("<div class=\"subreddit\">/r/" + posts[i].data.subreddit + "</div>");
-						if (posts[i].data.over_18) {
-							result += ("<span style=\"color:#da0000; font-weight:bold;\">NSFW</span>")
-						}
-						result += ("<div class=\"comments\"><a class=\"various\" data-fancybox-type=\"iframe\" href=\"http://reddit.com" + posts[i].data.permalink + "\">" + posts[i].data.num_comments + " comments</a></div>");
-
-						result += ("<div class=\"score\">Score: ");
-						result += (posts[i].data.score);
-						result += ("</div>");
-						// close score
-
+						
 						/*
 						 result += ("<div class=\"voteBox\">");
 
